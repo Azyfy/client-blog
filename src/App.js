@@ -1,6 +1,7 @@
 import './App.css';
 import { useState, useEffect } from 'react';
 import axios from "axios";
+import './spinner.css';
 
 function App() {
 
@@ -8,6 +9,7 @@ function App() {
   const [ comments, setComments ] = useState([]);
   const [ comment, setComment ] = useState("");
   const [ user, setUser ] = useState("");
+  const [ loading, setLoading ] = useState(true);
 
   useEffect(() => {
     axios.get("http://localhost:3001/blog")
@@ -26,6 +28,7 @@ function App() {
           console.error(error)
         })
 
+      setLoading(false);
   }, []);
 
   function handleChangeUser (e) {
@@ -68,6 +71,12 @@ function App() {
   return (
     <div className="App">
       <p>Hello</p>
+      {(loading === true) ? (
+        <div className="spinner">
+          <div className="double-bounce1"></div>
+          <div className="double-bounce2"></div>
+        </div>
+      ) : (
       <div>
         { posts.map( post => {
           return (
@@ -97,7 +106,7 @@ function App() {
           );
         }) }
 
-      </div>
+      </div> )}
 
     </div>
   );
