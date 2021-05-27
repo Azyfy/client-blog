@@ -23,12 +23,12 @@ function App() {
       axios.get("http://localhost:3001/blog/comments")
       .then((res) => {
           setComments(res.data);
+          setLoading(false);
         })
         .catch((error) => {
           console.error(error)
         })
 
-      setLoading(false);
   }, []);
 
   function handleChangeUser (e) {
@@ -70,7 +70,7 @@ function App() {
 
   return (
     <div className="App">
-      <p>Hello</p>
+      <h1 style={{textAlign: "center" }}>Blog</h1>
       {(loading === true) ? (
         <div className="spinner">
           <div className="double-bounce1"></div>
