@@ -1,7 +1,8 @@
-import './App.css';
+import './App.scss';
 import { useState, useEffect } from 'react';
 import axios from "axios";
 import './spinner.css';
+import './reset.css';
 
 function App() {
 
@@ -80,14 +81,14 @@ function App() {
       <div>
         { posts.map( post => {
           return (
-            <div>
+            <div className="blogpost">
               <h4> {post.title} </h4>
               <div dangerouslySetInnerHTML={(createMarkup(htmlDecode(post.text)))}></div>
               <div>
                 { comments.map( comment => {
                   return (
                     (comment.blogpost._id === post._id) ? ( 
-                    <div>
+                    <div className="blogcomment">
                       <h6>{comment.user}</h6>
                       <p>{comment.comment}</p>
                     </div>
