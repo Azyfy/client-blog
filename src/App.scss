@@ -1,0 +1,12 @@
+$background-color: lightblue;
+
+body {
+    background-image: url("./pic/1210710.jpg");
+    background-color: $background-color;
+    background-position: center;
+    background-size: cover;
+}
+
+.blogpost {
+    border: 1px solid white;
+}
