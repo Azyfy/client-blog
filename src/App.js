@@ -71,7 +71,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1 style={{textAlign: "center" }}>Blog</h1>
+      <h1 id="maintitle" style={{textAlign: "center" }}>Blog</h1>
       {(loading === true) ? (
         <div className="spinner">
           <div className="double-bounce1"></div>
@@ -83,7 +83,7 @@ function App() {
           return (
             <div className="blogpost">
               <h4> {post.title} </h4>
-              <div dangerouslySetInnerHTML={(createMarkup(htmlDecode(post.text)))}></div>
+              <div className="textarea" dangerouslySetInnerHTML={(createMarkup(htmlDecode(post.text)))}></div>
               <div>
                 { comments.map( comment => {
                   return (

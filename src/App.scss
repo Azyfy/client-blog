@@ -1,12 +1,89 @@
-$background-color: lightblue;
+$bodybackground-color: lightblue;
+$postbackground-color: rgba($color: white, $alpha: 0.4);
+$commentbackground-color: rgba($color: black, $alpha: 0.4);
+$comment-color: white;
+$opacityonhover: rgba($color: black, $alpha: 0.3);
+
+@mixin title($back: #000000, $color: white) {
+    background-color: rgba($color: $back, $alpha: 0.5);
+    color: $color;
+    padding: 15px;
+    font-weight: bold;
+    border-radius: 25px 25px 0 0;
+  }
 
 body {
     background-image: url("./pic/1210710.jpg");
-    background-color: $background-color;
+    background-color: $bodybackground-color;
     background-position: center;
     background-size: cover;
 }
 
+#maintitle {
+    margin: 15px 0;
+    font-size: xx-large;
+    font-weight: bold;
+    color: white;
+}
+
 .blogpost {
-    border: 1px solid white;
+    max-width: 70%;
+    margin: 25px auto;
+
+    h4 {
+        @include title;
+    }
+    .textarea {
+        padding: 15px;
+        background-color: $postbackground-color
+    }
+    form {
+        text-align: center;
+
+        input:first-child {
+            max-width: 130px;
+        }
+
+        input {
+            opacity: 0.5;
+        }
+
+        input:hover, input:focus {
+            opacity: 1;
+        }
+
+        button {
+            opacity: 0.5;
+        }
+
+        button:hover {
+            opacity: 1;
+        }
+    }
+}
+
+.blogcomment {
+    background-color: $commentbackground-color;
+    color: $comment-color;
+
+    h6 {
+        font-size: small;
+        text-decoration: underline;
+        font-style: italic;
+    }
+    p {
+        padding: 5px 0;
+        padding-left: 25px;
+    }
+    p:hover {
+        font-weight: bold;
+        background-color: $opacityonhover;
+    }
+
+}
+
+@media (max-width: 500px) {
+    .blogpost {
+        max-width: 90%;
+    }
 }
