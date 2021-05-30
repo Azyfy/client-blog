@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import axios from "axios";
 import './spinner.css';
 import './reset.css';
-import uniqid from "uniqid";
 
 function App() {
 
@@ -46,6 +45,7 @@ function App() {
 
     axios.post("http://localhost:3001/blog/comments", {
       blogpost: e.target.dataset.blogpost,
+      isadmin: false,
       user,
       comment
     })
@@ -82,35 +82,34 @@ function App() {
       <div>
         { posts.map( post => {
           return (
-            <div key={uniqid()} className="blogpost">
-              <h4 key={uniqid()}> {post.title} </h4>
-              <div key={uniqid()} className="textarea" dangerouslySetInnerHTML={(createMarkup(htmlDecode(post.text)))}></div>
-              <div key={uniqid()}>
+            <div key={post._id} className="blogpost">
+              <h4 key={post._id }> {post.title} </h4>
+              <div key={post._id +1} className="textarea" dangerouslySetInnerHTML={(createMarkup(htmlDecode(post.text)))}></div>
+              <div key={post._id +2}>
                 {comments.map( comment => {
                   return (
                     (comment.blogpost._id === post._id) ? (
                        
-                    <div key={uniqid()} className="blogcomment">
-                      <h6 key={uniqid()}>{comment.user}</h6>
-                      <p key={uniqid()}>{comment.comment}</p>
+                    <div key={comment._id} className="blogcomment">
+                      <h6 key={comment._id +1}>{comment.user}</h6>
+                      <p key={comment._id +2}>{comment.comment}</p>
                     </div>
                     ) : (
-                      <p key={uniqid()}></p>
+                      <p key={comment._id}></p>
                     )
                     );
                 } )  }
               </div>
-              <form key={uniqid()} onSubmit={handleSubmit} data-blogpost={post._id}>
-                <input key={uniqid()} onChange={handleChangeUser} type="text" id="user" name="user" placeholder="Optional username" />
-                <input key={uniqid()} onChange={handleChangeComment} type="text" id="comment" name="comment" placeholder="Your comment" required />
-                <button key={uniqid()}>OK</button>
+              <form key={post._id +3} onSubmit={handleSubmit} data-blogpost={post._id}>
+                <input key={post._id +4} onChange={handleChangeUser} type="text" id="user" name="user" placeholder="Optional username" />
+                <input key={post._id +5} onChange={handleChangeComment} type="text" id="comment" name="comment" placeholder="Your comment" required />       
+                <button key={post._id +6}>OK</button>
               </form>
             </div>
           );
         }) }
 
       </div> )}
-
     </div>
   );
 }
