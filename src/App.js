@@ -3,35 +3,40 @@ import { useState, useEffect } from 'react';
 import axios from "axios";
 import './spinner.css';
 import './reset.css';
+import Comments from "./components/Comments"
 
 function App() {
 
   const [ posts, setPosts ] = useState([]);
   const [ comments, setComments ] = useState([]);
-  const [ comment, setComment ] = useState("");
-  const [ user, setUser ] = useState("");
+ // const [ comment, setComment ] = useState("");
+ // const [ user, setUser ] = useState("");
   const [ loading, setLoading ] = useState(true);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/blog")
-    .then((res) => {
-        setPosts(res.data);
-      })
-      .catch((error) => {
-        console.error(error)
-      })
 
-      axios.get("http://localhost:3001/blog/comments")
-      .then((res) => {
-          setComments(res.data);
+    function getPosts() {
+      return axios.get("http://localhost:3001/blog");
+    }
+
+    function getComments() {
+      return axios.get("http://localhost:3001/blog/comments");
+    }
+
+    Promise.all([getPosts(), getComments()])
+        .then(function (results) {
+          const returnedPosts = results[0].data;
+          const returnedComments = results[1].data;
+
+          setPosts(returnedPosts);
+          setComments(returnedComments);
           setLoading(false);
-        })
-        .catch((error) => {
-          console.error(error)
-        })
+        }).catch(error => {
+          console.error(error.message)
+        });
 
   }, []);
-
+/*
   function handleChangeUser (e) {
     setUser(e.target.value);
   }
@@ -43,23 +48,23 @@ function App() {
   function handleSubmit (e) {
     e.preventDefault()
 
-    axios.post("http://localhost:3001/blog/comments", {
+    const newComment = {
       blogpost: e.target.dataset.blogpost,
       isadmin: false,
       user,
       comment
-    })
+    }
+
+    axios.post("http://localhost:3001/blog/comments", newComment)
     .then( (res) => {
-        console.log(res.data)
+      console.log(res.data)
+        setComments(comments.concat(res.data))
     })
     .catch( (err) => {
       console.log(err)
     });
-
-    window.location.reload(); 
-
   }
-
+*/
   function createMarkup(markup) {
     return {__html: markup};
   }
@@ -83,28 +88,12 @@ function App() {
         { posts.map( post => {
           return (
             <div key={post._id} className="blogpost">
-              <h4 key={post._id }> {post.title} </h4>
-              <div key={post._id +1} className="textarea" dangerouslySetInnerHTML={(createMarkup(htmlDecode(post.text)))}></div>
-              <div key={post._id +2}>
-                {comments.map( comment => {
-                  return (
-                    (comment.blogpost._id === post._id) ? (
-                       
-                    <div key={comment._id} className="blogcomment">
-                      <h6 key={comment._id +1}>{comment.user}</h6>
-                      <p key={comment._id +2}>{comment.comment}</p>
-                    </div>
-                    ) : (
-                      <p key={comment._id}></p>
-                    )
-                    );
-                } )  }
-              </div>
-              <form key={post._id +3} onSubmit={handleSubmit} data-blogpost={post._id}>
-                <input key={post._id +4} onChange={handleChangeUser} type="text" id="user" name="user" placeholder="Optional username" />
-                <input key={post._id +5} onChange={handleChangeComment} type="text" id="comment" name="comment" placeholder="Your comment" required />       
-                <button key={post._id +6}>OK</button>
-              </form>
+              <h4 > {post.title} </h4>
+              <div className="textarea" dangerouslySetInnerHTML={(createMarkup(htmlDecode(post.text)))}></div>
+
+              <Comments comments={comments} post={post} />
+
+              
             </div>
           );
         }) }

@@ -82,6 +82,14 @@ body {
 
 }
 
+#show-btn {
+    opacity: 0.5;
+}
+
+#show-btn:hover {
+    opacity: 1;
+}
+
 @media (max-width: 500px) {
     .blogpost {
         max-width: 90%;
