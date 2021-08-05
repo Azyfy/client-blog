@@ -9,8 +9,6 @@ function App() {
 
   const [ posts, setPosts ] = useState([]);
   const [ comments, setComments ] = useState([]);
- // const [ comment, setComment ] = useState("");
- // const [ user, setUser ] = useState("");
   const [ loading, setLoading ] = useState(true);
 
   useEffect(() => {
@@ -36,35 +34,7 @@ function App() {
         });
 
   }, []);
-/*
-  function handleChangeUser (e) {
-    setUser(e.target.value);
-  }
 
-  function handleChangeComment (e) {
-    setComment(e.target.value);
-  }
-
-  function handleSubmit (e) {
-    e.preventDefault()
-
-    const newComment = {
-      blogpost: e.target.dataset.blogpost,
-      isadmin: false,
-      user,
-      comment
-    }
-
-    axios.post("http://localhost:3001/blog/comments", newComment)
-    .then( (res) => {
-      console.log(res.data)
-        setComments(comments.concat(res.data))
-    })
-    .catch( (err) => {
-      console.log(err)
-    });
-  }
-*/
   function createMarkup(markup) {
     return {__html: markup};
   }
